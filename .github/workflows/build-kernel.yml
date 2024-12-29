@@ -240,7 +240,7 @@ jobs:
         if [ ${{ env.DISABLE_CC_WERROR }} = true ]; then
             echo "CONFIG_CC_WERROR=n" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
         fi
-        echo "SUSFS_KERNEL_VERSION=$(grep -w "VERSION" $GITHUB_WORKSPACE/kernel_workspace/android-kernel/Makefile | head -n 1 | cut -d "=" -f 2).$(grep -w "PATCHLEVEL" $GITHUB_WORKSPACE/kernel_workspace/android-kernel/Makefile | head -n 2 | cut -d "=" -f 2)" >> $GITHUB_ENV
+        echo "SUSFS_KERNEL_VERSION=$(head -n 1 $GITHUB_WORKSPACE/kernel_workspace/android-kernel/Makefile|grep 'VERSION'|awk -F '= ' '{print $2}').$(head -n 2 $GITHUB_WORKSPACE/kernel_workspace/android-kernel/Makefile|grep 'PATCHLEVEL'|awk -F '= ' '{print $2}')" >> $GITHUB_ENV
     - name: SUSFS add
       if: env.ENABLE_SUSFS == 'true'
       run: |
