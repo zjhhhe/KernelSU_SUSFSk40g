@@ -249,9 +249,8 @@ jobs:
         git clone --recursive ${{ env.SUSFS_SOURCE }} -b ${{ env.SUSFS_SOURCE_BRANCH }} susfs4ksu --depth=1
         ls susfs4ksu
         cp susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch KernelSU/
-        wget https://raw.githubusercontent.com/JackA1ltman/KernelSU_Action/refs/heads/main/patches/50_add_susfs_in_kernel-4.9.patch
+        cp susfs4ksu/kernel_patches/50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch ./
         cp susfs4ksu/kernel_patches/fs/susfs.c fs/
-        wget https://raw.githubusercontent.com/backslashxx/KernelSU/refs/heads/magic/kernel/include/ksu_hook.h -O include/linux/ksu_hook.h
         cp susfs4ksu/kernel_patches/include/linux/susfs.h include/linux/
         cd KernelSU
         patch -p1 < 10_enable_susfs_for_ksu.patch
