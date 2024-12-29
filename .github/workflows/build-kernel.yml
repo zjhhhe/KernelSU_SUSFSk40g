@@ -244,7 +244,6 @@ jobs:
     - name: Setup SUSFS For KernelSU
       if: env.ENABLE_SUSFS == 'true'
       run: |
-        echo $SUSFS_KERNEL_VERSION
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
         git clone --recursive ${{ env.SUSFS_SOURCE }} -b ${{ env.SUSFS_SOURCE_BRANCH }} susfs4ksu --depth=1
         cp susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch KernelSU/
