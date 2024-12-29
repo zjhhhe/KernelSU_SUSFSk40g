@@ -256,12 +256,6 @@ jobs:
         patch -p1 < 10_enable_susfs_for_ksu.patch
         cd ../
         patch -p1 < 50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch
-        if grep -q "CONFIG_KSU_SUSFS" arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}; then
-            sed -i 's/# CONFIG_KSU_SUSFS is not set/CONFIG_KSU_SUSFS=y/g' arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
-            sed -i 's/CONFIG_KSU_SUSFS=n/CONFIG_KSU_SUSFS=y/g' arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
-        else
-            echo "CONFIG_KSU_SUSFS=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
-        fi
       
     - name: Setup ccache
       if: env.ENABLE_CCACHE == 'true'
