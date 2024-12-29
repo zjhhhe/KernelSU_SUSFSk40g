@@ -253,9 +253,9 @@ jobs:
         cp susfs4ksu/kernel_patches/fs/susfs.c fs/
         cp susfs4ksu/kernel_patches/include/linux/susfs.h include/linux/
         cd KernelSU
-        patch -p1 < 10_enable_susfs_for_ksu.patch
+        patch -p1 < 10_enable_susfs_for_ksu.patch >> res.txt
         cd ../
-        patch -p1 < 50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch
+        patch -p1 < 50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch >> res.txt
       
     - name: Setup ccache
       if: env.ENABLE_CCACHE == 'true'
