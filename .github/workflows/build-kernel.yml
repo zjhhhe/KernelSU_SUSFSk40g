@@ -42,8 +42,8 @@ jobs:
             ENABLE_SUSFS
             SUSFS_SOURCE
             SUSFS_SOURCE_BRANCH
-            ENABLE_KernelSU
-            KernelSU_TAG
+            ENABLE_KERNELSU
+            KERNELSU_TAG
             ADD_KPROBES_CONFIG
             DISABLE-LTO
             ADD_OVERLAYFS_CONFIG
