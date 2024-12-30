@@ -206,7 +206,10 @@ jobs:
       if: env.ENABLE_KERNELSU == 'true'
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
-        curl -LSs "https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/setup.sh" | bash -s ${{ env.KERNELSU_TAG }}
+        # curl -LSs "https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/setup.sh" | bash -s ${{ env.KERNELSU_TAG }}
+        git clone --recursive https://github.com/rifsxd/KernelSU-Next.git -b ${{ env.KERNELSU_TAG }}
+        mkdir -p drivers/kernelsu
+        cp -r KernelSU-Next/kernel/* drivers/kernelsu/
         KSU_VERSION=$(cd KernelSU-Next && expr $(/usr/bin/git rev-list --count HEAD) + 10200)
         echo "UPLOADNAME=-KernelSU_$KSU_VERSION" >> $GITHUB_ENV
         cat drivers/kernelsu/apk_sign.h
@@ -241,28 +244,12 @@ jobs:
         if [ ${{ env.DISABLE_CC_WERROR }} = true ]; then
             echo "CONFIG_CC_WERROR=n" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
         fi
+        echo "CONFIG_KSU_SUSFS=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
         echo "SUSFS_KERNEL_VERSION=$(head -n 1 $GITHUB_WORKSPACE/kernel_workspace/android-kernel/Makefile|grep 'VERSION'|awk -F '= ' '{print $2}').$(head -n 2 $GITHUB_WORKSPACE/kernel_workspace/android-kernel/Makefile|grep 'PATCHLEVEL'|awk -F '= ' '{print $2}')" >> $GITHUB_ENV
     - name: Setup SUSFS For KernelSU
       if: env.ENABLE_SUSFS == 'true'
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
-        wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/apk_sign.c -O drivers/kernelsu/apk_sign.c
-        wget https://raw.githubusercontent.com/rifsxd/KernelSU-Next/refs/heads/next-susfs-4.9/kernel/Kconfig -O drivers/kernelsu/Kconfig
-        wget https://raw.githubusercontent.com/rifsxd/KernelSU-Next/refs/heads/next-susfs-4.9/kernel/Makefile -O drivers/kernelsu/Makefile
-        wget https://raw.githubusercontent.com/rifsxd/KernelSU-Next/refs/heads/next-susfs-4.9/kernel/allowlist.c -O drivers/kernelsu/allowlist.c
-        wget https://raw.githubusercontent.com/rifsxd/KernelSU-Next/refs/heads/next-susfs-4.9/kernel/apk_sign.h -O drivers/kernelsu/apk_sign.h
-        wget https://raw.githubusercontent.com/rifsxd/KernelSU-Next/refs/heads/next-susfs-4.9/kernel/core_hook.c -O drivers/kernelsu/core_hook.c
-        wget https://raw.githubusercontent.com/rifsxd/KernelSU-Next/refs/heads/next-susfs-4.9/kernel/kernel_compat.c -O drivers/kernelsu/kernel_compat.c
-        wget https://raw.githubusercontent.com/rifsxd/KernelSU-Next/refs/heads/next-susfs-4.9/kernel/ksu.c -O drivers/kernelsu/ksu.c
-        wget https://raw.githubusercontent.com/rifsxd/KernelSU-Next/refs/heads/next-susfs-4.9/kernel/ksud.c -O drivers/kernelsu/ksud.c
-        wget https://raw.githubusercontent.com/rifsxd/KernelSU-Next/refs/heads/next-susfs-4.9/kernel/ksud.h -O drivers/kernelsu/ksud.h
-        wget https://raw.githubusercontent.com/rifsxd/KernelSU-Next/refs/heads/next-susfs-4.9/kernel/manager.h -O drivers/kernelsu/manager.h
-        wget https://raw.githubusercontent.com/rifsxd/KernelSU-Next/refs/heads/next-susfs-4.9/kernel/selinux/rules.c -O drivers/kernelsu/selinux/rules.c
-        wget https://raw.githubusercontent.com/rifsxd/KernelSU-Next/refs/heads/next-susfs-4.9/kernel/selinux/selinux.c -O drivers/kernelsu/selinux/selinux.c
-        wget https://raw.githubusercontent.com/rifsxd/KernelSU-Next/refs/heads/next-susfs-4.9/kernel/selinux/selinux.h -O drivers/kernelsu/selinux/selinux.h
-        wget https://raw.githubusercontent.com/rifsxd/KernelSU-Next/refs/heads/next-susfs-4.9/kernel/sucompat.c -O drivers/kernelsu/sucompat.c
-        wget https://raw.githubusercontent.com/rifsxd/KernelSU-Next/refs/heads/next-susfs-4.9/kernel/throne_tracker.c -O drivers/kernelsu/throne_tracker.c
-        wget https://raw.githubusercontent.com/rifsxd/KernelSU-Next/refs/heads/next-susfs-4.9/kernel/throne_tracker.h -O drivers/kernelsu/throne_tracker.h
         git clone --recursive ${{ env.SUSFS_SOURCE }} -b ${{ env.SUSFS_SOURCE_BRANCH }} susfs4ksu --depth=1
         # cp susfs4ksu/kernel_patches/KernelSU-Next/10_enable_susfs_for_ksu.patch KernelSU-Next/
         # cp susfs4ksu/kernel_patches/50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch ./
@@ -273,8 +260,6 @@ jobs:
         # patch -p1 < 10_enable_susfs_for_ksu.patch
         # cd ../
         patch -p1 < 50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch
-        cat drivers/kernelsu/Kconfig
-        ls drivers/kernelsu/
       
     - name: Setup ccache
       if: env.ENABLE_CCACHE == 'true'
