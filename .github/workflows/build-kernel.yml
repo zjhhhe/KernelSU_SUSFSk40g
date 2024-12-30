@@ -250,13 +250,12 @@ jobs:
         git clone --recursive ${{ env.SUSFS_SOURCE }} -b ${{ env.SUSFS_SOURCE_BRANCH }} susfs4ksu --depth=1
         # cp susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch KernelSU/
         # cp susfs4ksu/kernel_patches/50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch ./
-        wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/10_enable_susfs_for_ksu.patch -O KernelSU/10_enable_susfs_for_ksu.patch
         wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/50_add_susfs_in_kernel-4.9.patch
         cp susfs4ksu/kernel_patches/fs/susfs.c fs/
         cp susfs4ksu/kernel_patches/include/linux/susfs.h include/linux/
-        cd KernelSU
-        patch -p1 < 10_enable_susfs_for_ksu.patch
-        cd ../
+        # cd KernelSU
+        # patch -p1 < 10_enable_susfs_for_ksu.patch
+        # cd ../
         patch -p1 < 50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch
       
     - name: Setup ccache
