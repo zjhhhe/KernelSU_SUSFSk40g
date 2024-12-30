@@ -256,6 +256,7 @@ jobs:
         # patch -p1 < 10_enable_susfs_for_ksu.patch
         # cd ../
         patch -p1 < 50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch
+        cat drivers/kernelsu/Kconfig
       
     - name: Setup ccache
       if: env.ENABLE_CCACHE == 'true'
