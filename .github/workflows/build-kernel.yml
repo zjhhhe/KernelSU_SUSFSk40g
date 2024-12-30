@@ -210,6 +210,8 @@ jobs:
         git clone --recursive https://github.com/rifsxd/KernelSU-Next.git -b ${{ env.KERNELSU_TAG }}
         mkdir -p drivers/kernelsu
         cp -r KernelSU-Next/kernel/* drivers/kernelsu/
+        wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/Makefile -O KernelSU/kernel/Makefile
+        cp KernelSU/kernel/Makefile drivers/kernelsu/Makefile
         KSU_VERSION=$(cd KernelSU-Next && expr $(/usr/bin/git rev-list --count HEAD) + 10200)
         echo "UPLOADNAME=-KernelSU_$KSU_VERSION" >> $GITHUB_ENV
         cat drivers/kernelsu/apk_sign.h
