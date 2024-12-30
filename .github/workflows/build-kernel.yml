@@ -207,6 +207,7 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
         curl -LSs "https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/setup.sh" | bash -s ${{ env.KERNELSU_TAG }}
+        cd KernelSU-Next
         git fetch --all && git reset --hard origin/next-susfs-4.9 && git pull
         KSU_VERSION=$(cd KernelSU-Next && expr $(/usr/bin/git rev-list --count HEAD) + 10200)
         echo "UPLOADNAME=-KernelSU_$KSU_VERSION" >> $GITHUB_ENV
@@ -259,7 +260,7 @@ jobs:
         # patch -p1 < 10_enable_susfs_for_ksu.patch
         # cd ../
         patch -p1 < 50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch
-        cat drivers/kernelsu/allowlist.c | grep 'static bool persistent_allow_list(void)'
+        cat drivers/kernelsu/apk_sign.h
       
     - name: Setup ccache
       if: env.ENABLE_CCACHE == 'true'
