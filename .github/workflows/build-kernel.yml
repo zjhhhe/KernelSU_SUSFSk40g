@@ -206,13 +206,13 @@ jobs:
       if: env.ENABLE_KERNELSU == 'true'
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
-        # curl -LSs "https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/setup.sh" | bash -s ${{ env.KERNELSU_TAG }}
-        git clone --recursive https://github.com/rifsxd/KernelSU-Next.git -b ${{ env.KERNELSU_TAG }}
-        mkdir -p drivers/kernelsu
-        cp -r KernelSU-Next/kernel/* drivers/kernelsu/
-        wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/Makefile -O KernelSU-Next/kernel/Makefile
-        cp KernelSU-Next/kernel/Makefile drivers/kernelsu/Makefile
-        KSU_VERSION=$(cd KernelSU-Next && expr $(/usr/bin/git rev-list --count HEAD) + 10200)
+        curl -LSs "https://raw.githubusercontent.com/sidex15/KernelSU/refs/heads/non-gki-n3x7g3n/kernel/setup.sh" | bash -s ${{ env.KERNELSU_TAG }}
+        # git clone --recursive https://github.com/rifsxd/KernelSU-Next.git -b ${{ env.KERNELSU_TAG }}
+        # mkdir -p drivers/kernelsu
+        # cp -r KernelSU-Next/kernel/* drivers/kernelsu/
+        # wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/Makefile -O KernelSU-Next/kernel/Makefile
+        # cp KernelSU-Next/kernel/Makefile drivers/kernelsu/Makefile
+        KSU_VERSION=$(cd KernelSU && expr $(/usr/bin/git rev-list --count HEAD) + 10200)
         echo "UPLOADNAME=-KernelSU_$KSU_VERSION" >> $GITHUB_ENV
         cat drivers/kernelsu/apk_sign.h
 
@@ -255,14 +255,15 @@ jobs:
         echo "CONFIG_KSU_SUSFS_SPOOF_UNAME=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
         echo "CONFIG_KSU_SUSFS_HIDE_KSU_SUSFS_SYMBOLS=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
         echo "SUSFS_KERNEL_VERSION=$(head -n 1 $GITHUB_WORKSPACE/kernel_workspace/android-kernel/Makefile|grep 'VERSION'|awk -F '= ' '{print $2}').$(head -n 2 $GITHUB_WORKSPACE/kernel_workspace/android-kernel/Makefile|grep 'PATCHLEVEL'|awk -F '= ' '{print $2}')" >> $GITHUB_ENV
+    
     - name: Setup SUSFS For KernelSU
       if: env.ENABLE_SUSFS == 'true'
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
         git clone --recursive ${{ env.SUSFS_SOURCE }} -b ${{ env.SUSFS_SOURCE_BRANCH }} susfs4ksu --depth=1
         # cp susfs4ksu/kernel_patches/KernelSU-Next/10_enable_susfs_for_ksu.patch KernelSU-Next/
-        # cp susfs4ksu/kernel_patches/50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch ./
-        wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/50_add_susfs_in_kernel-4.9.patch
+        cp susfs4ksu/kernel_patches/50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch ./
+        # wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/50_add_susfs_in_kernel-4.9.patch
         cp susfs4ksu/kernel_patches/fs/susfs.c fs/
         cp susfs4ksu/kernel_patches/include/linux/susfs.h include/linux/
         # cd KernelSU-Next
@@ -287,6 +288,7 @@ jobs:
           export KSU_EXPECTED_SIZE=${{ env.KSU_EXPECTED_SIZE }}
           export KSU_EXPECTED_HASH=${{ env.KSU_EXPECTED_HASH }}
         fi
+        make clean && make mrproper
         make -j$(nproc --all) CC=clang O=out ARCH=${{ env.ARCH }} ${{ env.CUSTOM_CMDS }} ${{ env.EXTRA_CMDS }} ${{ env.GCC_64 }} ${{ env.GCC_32 }} ${{ env.KERNEL_CONFIG }}
         if [ ${{ env.ENABLE_CCACHE }} = true ]; then
             make -j$(nproc --all) CC="ccache clang" O=out ARCH=${{ env.ARCH }} ${{ env.CUSTOM_CMDS }} ${{ env.EXTRA_CMDS }} ${{ env.GCC_64 }} ${{ env.GCC_32 }}
