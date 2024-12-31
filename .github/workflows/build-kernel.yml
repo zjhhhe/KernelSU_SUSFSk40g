@@ -206,15 +206,15 @@ jobs:
       if: env.ENABLE_KERNELSU == 'true'
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
-        curl -LSs "https://raw.githubusercontent.com/sidex15/KernelSU/refs/heads/non-gki-n3x7g3n/kernel/setup.sh" | bash -s ${{ env.KERNELSU_TAG }}
-        # git clone --recursive https://github.com/rifsxd/KernelSU-Next.git -b ${{ env.KERNELSU_TAG }}
-        # mkdir -p drivers/kernelsu
-        # cp -r KernelSU-Next/kernel/* drivers/kernelsu/
+        # curl -LSs "https://raw.githubusercontent.com/sidex15/KernelSU/refs/heads/non-gki-n3x7g3n/kernel/setup.sh" | bash -s ${{ env.KERNELSU_TAG }}
+        git clone --recursive https://github.com/rifsxd/KernelSU-Next.git -b ${{ env.KERNELSU_TAG }}
+        mkdir -p drivers/kernelsu
+        cp -r KernelSU/kernel/* drivers/kernelsu/
         # wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/Makefile -O KernelSU-Next/kernel/Makefile
         # cp KernelSU-Next/kernel/Makefile drivers/kernelsu/Makefile
         KSU_VERSION=$(cd KernelSU && expr $(/usr/bin/git rev-list --count HEAD) + 10200)
         echo "UPLOADNAME=-KernelSU_$KSU_VERSION" >> $GITHUB_ENV
-        cat drivers/kernelsu/apk_sign.h
+        cat drivers/kernelsu/Makefile
 
     - name: Setup Configuration for Kernel
       run: |
