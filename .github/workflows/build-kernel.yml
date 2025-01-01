@@ -254,12 +254,12 @@ jobs:
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
         echo "CONFIG_KSU_SUSFS=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
         echo "CONFIG_KSU_SUSFS_SUS_SU=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
-        echo "CONFIG_KSU_SUSFS_SUS_MOUNT=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
-        echo "CONFIG_KSU_SUSFS_SUS_KSTAT=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
-        echo "CONFIG_KSU_SUSFS_SUS_OVERLAYFS=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
-        echo "CONFIG_KSU_SUSFS_TRY_UMOUNT=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
-        echo "CONFIG_KSU_SUSFS_SPOOF_UNAME=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
-        echo "CONFIG_KSU_SUSFS_HIDE_KSU_SUSFS_SYMBOLS=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+        # echo "CONFIG_KSU_SUSFS_SUS_MOUNT=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+        # echo "CONFIG_KSU_SUSFS_SUS_KSTAT=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+        # echo "CONFIG_KSU_SUSFS_SUS_OVERLAYFS=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+        # echo "CONFIG_KSU_SUSFS_TRY_UMOUNT=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+        # echo "CONFIG_KSU_SUSFS_SPOOF_UNAME=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+        # echo "CONFIG_KSU_SUSFS_HIDE_KSU_SUSFS_SYMBOLS=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
         echo "SUSFS_KERNEL_VERSION=$(head -n 1 $GITHUB_WORKSPACE/kernel_workspace/android-kernel/Makefile|grep 'VERSION'|awk -F '= ' '{print $2}').$(head -n 2 $GITHUB_WORKSPACE/kernel_workspace/android-kernel/Makefile|grep 'PATCHLEVEL'|awk -F '= ' '{print $2}')" >> $GITHUB_ENV
     
     - name: Setup SUSFS For KernelSU
@@ -267,20 +267,20 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
         git clone --recursive ${{ env.SUSFS_SOURCE }} -b ${{ env.SUSFS_SOURCE_BRANCH }} susfs4ksu --depth=1
-        # cp susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch KernelSU/
-        # cp susfs4ksu/kernel_patches/50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch ./
-        wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/50_add_susfs_in_kernel-4.9.patch
+        cp susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch KernelSU/
+        cp susfs4ksu/kernel_patches/50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch ./
+        # wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/50_add_susfs_in_kernel-4.9.patch
         cp susfs4ksu/kernel_patches/fs/susfs.c fs/
         cp susfs4ksu/kernel_patches/include/linux/susfs.h include/linux/
-        # cd KernelSU
-        # patch -p1 < 10_enable_susfs_for_ksu.patch
-        # cd ../
+        cd KernelSU
+        patch -p1 < 10_enable_susfs_for_ksu.patch
+        cd ../
         patch -p1 < 50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch
-        wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/crdroid/devpts/inode.c -O fs/devpts/inode.c
-        wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/crdroid/proc/cmdline.c -O fs/proc/cmdline.c
-        wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/crdroid/drivers/kernelsu/Makefile -O drivers/kernelsu/Makefile
-        wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/crdroid/drivers/kernelsu/apk_sign.c -O drivers/kernelsu/apk_sign.c
-        wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/crdroid/drivers/kernelsu/core_hook.c -O drivers/kernelsu/core_hook.c
+        # wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/crdroid/devpts/inode.c -O fs/devpts/inode.c
+        # wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/crdroid/proc/cmdline.c -O fs/proc/cmdline.c
+        # wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/crdroid/drivers/kernelsu/Makefile -O drivers/kernelsu/Makefile
+        # wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/crdroid/drivers/kernelsu/apk_sign.c -O drivers/kernelsu/apk_sign.c
+        # wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/crdroid/drivers/kernelsu/core_hook.c -O drivers/kernelsu/core_hook.c
         cat arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
       
     - name: Setup ccache
