@@ -279,6 +279,7 @@ jobs:
         wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/crdroid/proc/cmdline.c -O fs/proc/cmdline.c
         wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/crdroid/drivers/kernelsu/Makefile -O drivers/kernelsu/Makefile
         wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/crdroid/drivers/kernelsu/apk_sign.c -O drivers/kernelsu/apk_sign.c
+        wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/crdroid/drivers/kernelsu/core_hook.c -O drivers/kernelsu/core_hook.c
       
     - name: Setup ccache
       if: env.ENABLE_CCACHE == 'true'
