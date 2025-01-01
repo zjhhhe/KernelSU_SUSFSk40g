@@ -186,6 +186,7 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace
         git clone --recursive ${{ env.KERNEL_SOURCE }} -b ${{ env.KERNEL_SOURCE_BRANCH }} android-kernel --depth=1
+        wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/evox/arch/arm64/configs/polaris_defconfig -O arch/arm64/configs/polaris_defconfig
         if [[ ${{ env.ADD_LOCALVERSION_TO_FILENAME }} == 'true' ]]; then
           echo "LOCALVERSION=$(cat android-kernel/localversion)" >> $GITHUB_ENV
         else
