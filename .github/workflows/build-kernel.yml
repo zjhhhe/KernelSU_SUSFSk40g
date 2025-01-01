@@ -207,7 +207,7 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
         # curl -LSs "https://raw.githubusercontent.com/sidex15/KernelSU/refs/heads/non-gki-n3x7g3n/kernel/setup.sh" | bash -s ${{ env.KERNELSU_TAG }}
-        git clone --recursive https://github.com/rifsxd/KernelSU-Next.git -b ${{ env.KERNELSU_TAG }}
+        git clone --recursive https://github.com/sidex15/KernelSU.git -b ${{ env.KERNELSU_TAG }}
         mkdir -p drivers/kernelsu
         cp -r KernelSU/kernel/* drivers/kernelsu/
         # wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/Makefile -O KernelSU-Next/kernel/Makefile
