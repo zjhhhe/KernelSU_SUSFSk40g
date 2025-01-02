@@ -43,6 +43,7 @@ jobs:
             SUSFS_SOURCE
             SUSFS_SOURCE_BRANCH
             ENABLE_KERNELSU
+            ENABLE_KERNELSU_MANUAL
             KERNELSU_TAG
             ADD_KPROBES_CONFIG
             DISABLE-LTO
@@ -186,7 +187,8 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace
         git clone --recursive ${{ env.KERNEL_SOURCE }} -b ${{ env.KERNEL_SOURCE_BRANCH }} android-kernel --depth=1
-        wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/evox/arch/arm64/configs/polaris_defconfig -O android-kernel/arch/arm64/configs/polaris_defconfig
+        rm -rf drivers/kernelsu
+        wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Crdroid_Mix2s_A14/arch/arm64/configs/polaris_defconfig -O android-kernel/arch/arm64/configs/polaris_defconfig
         if [[ ${{ env.ADD_LOCALVERSION_TO_FILENAME }} == 'true' ]]; then
           echo "LOCALVERSION=$(cat android-kernel/localversion)" >> $GITHUB_ENV
         else
@@ -207,15 +209,22 @@ jobs:
       if: env.ENABLE_KERNELSU == 'true'
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
-        curl -LSs "https://raw.githubusercontent.com/sidex15/KernelSU/refs/heads/non-gki-n3x7g3n/kernel/setup.sh" | bash -s ${{ env.KERNELSU_TAG }}
-        # git clone --recursive https://github.com/sidex15/KernelSU.git -b ${{ env.KERNELSU_TAG }}
-        # mkdir -p drivers/kernelsu
-        # cp -r KernelSU/kernel/* drivers/kernelsu/
-        # wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/Makefile -O KernelSU-Next/kernel/Makefile
-        # cp KernelSU-Next/kernel/Makefile drivers/kernelsu/Makefile
+        curl -LSs "https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/KernelSU-Next/kernel/setup.sh" | bash -s ${{ env.KERNELSU_TAG }}
         KSU_VERSION=$(cd KernelSU && expr $(/usr/bin/git rev-list --count HEAD) + 10200)
         echo "UPLOADNAME=-KernelSU_$KSU_VERSION" >> $GITHUB_ENV
         cat drivers/kernelsu/Kconfig
+
+    - name: Setup KernelSU (Manual)
+      if: env.ENABLE_KERNELSU_MANUAL == 'true'
+      run: |
+        cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
+        git clone --recursive https://github.com/sidex15/KernelSU.git -b ${{ env.KERNELSU_TAG }}
+        mkdir -p drivers/kernelsu
+        cp -r KernelSU/kernel/* drivers/kernelsu/
+        wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/Makefile -O KernelSU-Next/kernel/Makefile
+        cp KernelSU-Next/kernel/Makefile drivers/kernelsu/Makefile
+        KSU_VERSION=$(cd KernelSU && expr $(/usr/bin/git rev-list --count HEAD) + 10200)
+        echo "UPLOADNAME=-KernelSU_$KSU_VERSION" >> $GITHUB_ENV
 
     - name: Setup Configuration for Kernel
       run: |
@@ -267,23 +276,19 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
         git clone --recursive ${{ env.SUSFS_SOURCE }} -b ${{ env.SUSFS_SOURCE_BRANCH }} susfs4ksu --depth=1
+        
         cp susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch KernelSU/
         cp susfs4ksu/kernel_patches/50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch ./
-        # wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/50_add_susfs_in_kernel-4.9.patch
+        
         cp susfs4ksu/kernel_patches/fs/susfs.c fs/
         cp susfs4ksu/kernel_patches/fs/sus_su.c fs/
         cp susfs4ksu/kernel_patches/include/linux/susfs.h include/linux/
         cp susfs4ksu/kernel_patches/include/linux/sus_su.h include/linux/
-        # cd KernelSU
-        # patch -p1 < 10_enable_susfs_for_ksu.patch
-        # cd ../
+        
+        cd KernelSU
+        patch -p1 < 10_enable_susfs_for_ksu.patch
+        cd ../
         patch -p1 < 50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch
-        # wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/crdroid/devpts/inode.c -O fs/devpts/inode.c
-        # wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/crdroid/proc/cmdline.c -O fs/proc/cmdline.c
-        # wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/crdroid/drivers/kernelsu/Makefile -O drivers/kernelsu/Makefile
-        # wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/crdroid/drivers/kernelsu/apk_sign.c -O drivers/kernelsu/apk_sign.c
-        # wget https://raw.githubusercontent.com/JackA1ltman/crdroid_kernel_bak/refs/heads/main/crdroid/drivers/kernelsu/core_hook.c -O drivers/kernelsu/core_hook.c
-        cat arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
       
     - name: Setup ccache
       if: env.ENABLE_CCACHE == 'true'
