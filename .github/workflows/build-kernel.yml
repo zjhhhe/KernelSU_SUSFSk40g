@@ -280,14 +280,15 @@ jobs:
         
         # cp susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch KernelSU/
         wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch -O KernelSU/10_enable_susfs_for_ksu.patch
-        cp susfs4ksu/kernel_patches/50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch ./
+        # cp susfs4ksu/kernel_patches/50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch ./
+        wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Susfs4ksu/kernel_patches/50_add_susfs_in_kernel-4.9.patch
         
-        cp susfs4ksu/kernel_patches/fs/susfs.c fs/
-        cp susfs4ksu/kernel_patches/fs/sus_su.c fs/
-        cp susfs4ksu/kernel_patches/include/linux/susfs.h include/linux/
-        cp susfs4ksu/kernel_patches/include/linux/sus_su.h include/linux/
+        cp susfs4ksu/kernel_patches/fs/* fs/
+        cp susfs4ksu/kernel_patches/include/linux/* include/linux/
 
-        wget https://raw.githubusercontent.com/rifsxd/KernelSU-Next/refs/heads/next-susfs-4.9/kernel/Kconfig -O KernelSU/kernel/Kconfig -O KernelSU/kernel/Kconfig
+        wget https://raw.githubusercontent.com/rifsxd/KernelSU-Next/refs/heads/next-susfs-4.9/kernel/Kconfig -O KernelSU/kernel/Kconfig
+        wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Crdroid_Mix2s_A14/fs/devpts/inode.c -O fs/devpts/inode.c
+        wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Crdroid_Mix2s_A14/fs/proc/cmdline.c -O fs/proc/cmdline.c
         # cd KernelSU
         # patch -p1 < 10_enable_susfs_for_ksu.patch
         # cd ../
