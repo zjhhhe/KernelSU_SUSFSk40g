@@ -286,10 +286,11 @@ jobs:
         cp susfs4ksu/kernel_patches/fs/sus_su.c fs/
         cp susfs4ksu/kernel_patches/include/linux/susfs.h include/linux/
         cp susfs4ksu/kernel_patches/include/linux/sus_su.h include/linux/
-        
-        cd KernelSU
-        patch -p1 < 10_enable_susfs_for_ksu.patch
-        cd ../
+
+        wget wget https://raw.githubusercontent.com/rifsxd/KernelSU-Next/refs/heads/next-susfs-4.9/kernel/Kconfig -O KernelSU/kernel/Kconfig -O KernelSU/kernel/Kconfig
+        # cd KernelSU
+        # patch -p1 < 10_enable_susfs_for_ksu.patch
+        # cd ../
         patch -p1 < 50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch
       
     - name: Setup ccache
