@@ -210,6 +210,7 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
         curl -LSs "https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/KernelSU-Next/kernel/setup.sh" | bash -s ${{ env.KERNELSU_TAG }}
+        mv KernelSU-Next KernelSU
         KSU_VERSION=$(cd KernelSU && expr $(/usr/bin/git rev-list --count HEAD) + 10200)
         echo "UPLOADNAME=-KernelSU_$KSU_VERSION" >> $GITHUB_ENV
         cat drivers/kernelsu/Kconfig
