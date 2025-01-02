@@ -187,7 +187,7 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace
         git clone --recursive ${{ env.KERNEL_SOURCE }} -b ${{ env.KERNEL_SOURCE_BRANCH }} android-kernel --depth=1
-        rm -rf drivers/kernelsu
+        sudo rm -rf drivers/kernelsu
         wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Crdroid_Mix2s_A14/arch/arm64/configs/polaris_defconfig -O android-kernel/arch/arm64/configs/polaris_defconfig
         if [[ ${{ env.ADD_LOCALVERSION_TO_FILENAME }} == 'true' ]]; then
           echo "LOCALVERSION=$(cat android-kernel/localversion)" >> $GITHUB_ENV
