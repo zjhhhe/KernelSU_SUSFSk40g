@@ -294,7 +294,6 @@ jobs:
         # wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/KernelSU-Next/kernel/apk_sign.c -O KernelSU-Next/kernel/apk_sign.c
         wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Crdroid_Mix2s_A14/fs/devpts/inode.c -O fs/devpts/inode.c
         wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Crdroid_Mix2s_A14/fs/proc/cmdline.c -O fs/proc/cmdline.c
-        cat fs/proc/cmdline.c
         # cd KernelSU-Next
         # patch -p1 < 10_enable_susfs_for_ksu.patch
         # cd ../
