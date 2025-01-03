@@ -285,8 +285,8 @@ jobs:
         
         # cp susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch KernelSU-Next/
         # wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu_s2.patch -O KernelSU-Next/10_enable_susfs_for_ksu.patch
-        cp susfs4ksu/kernel_patches/50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch ./
-        # wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Susfs4ksu/kernel_patches/50_add_susfs_in_kernel-4.9.patch
+        # cp susfs4ksu/kernel_patches/50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch ./
+        # wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Susfs4ksu/kernel_patches/50_add_susfs_in_kernel-4.9_s1.patch -O 50_add_susfs_in_kernel-4.9.patch
         
         cp susfs4ksu/kernel_patches/fs/* fs/
         cp susfs4ksu/kernel_patches/include/linux/* include/linux/
