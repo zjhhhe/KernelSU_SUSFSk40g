@@ -209,7 +209,7 @@ jobs:
       if: env.ENABLE_KERNELSU == 'true'
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
-        curl -LSs "https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/KernelSU-Next/kernel/setup.sh" | bash -s ${{ env.KERNELSU_TAG }}
+        curl -LSs "https://raw.githubusercontent.com/backslashxx/KernelSU/refs/tags/v1.0.2-18/kernel/setup.sh" | bash -s ${{ env.KERNELSU_TAG }}
         # mv KernelSU-Next KernelSU
         KSU_VERSION=$(cd KernelSU-Next && expr $(/usr/bin/git rev-list --count HEAD) + 10200)
         echo "UPLOADNAME=-KernelSU_$KSU_VERSION" >> $GITHUB_ENV
@@ -266,13 +266,16 @@ jobs:
         echo "CONFIG_KSU_SUSFS_SUS_SU=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
         echo "CONFIG_KSU_SUSFS_SUS_MOUNT=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
         echo "CONFIG_KSU_SUSFS_SUS_KSTAT=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+        echo "CONFIG_KSU_SUSFS_SUS_PATH=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
         echo "CONFIG_KSU_SUSFS_SUS_OVERLAYFS=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
         echo "CONFIG_KSU_SUSFS_TRY_UMOUNT=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
-        echo "CONFIG_KSU_SUSFS_SPOOF_UNAME=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
         echo "CONFIG_KSU_SUSFS_HIDE_KSU_SUSFS_SYMBOLS=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
-        echo "CONFIG_KSU_SUSFS_SUS_PATH=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
         echo "CONFIG_KSU_SUSFS_ENABLE_LOG=y"  >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+        echo "CONFIG_KSU_SUSFS_HAS_MAGIC_MOUNT=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
         echo "CONFIG_KSU_SUSFS_AUTO_ADD_TRY_UMOUNT_FOR_BIND_MOUNT=y"  >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+        echo "CONFIG_KSU_SUSFS_AUTO_ADD_SUS_KSU_DEFAULT_MOUNT=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+        echo "CONFIG_KSU_SUSFS_AUTO_ADD_TRY_UMOUNT_FOR_BIND_MOUNT=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+        echo "CONFIG_KSU_SUSFS_SPOOF_UNAME=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
         echo "CONFIG_KSU_SUSFS_SPOOF_CMDLINE_OR_BOOTCONFIG=y"  >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
         echo "CONFIG_KSU_SUSFS_OPEN_REDIRECT=y"  >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
         echo "SUSFS_KERNEL_VERSION=$(head -n 1 $GITHUB_WORKSPACE/kernel_workspace/android-kernel/Makefile|grep 'VERSION'|awk -F '= ' '{print $2}').$(head -n 2 $GITHUB_WORKSPACE/kernel_workspace/android-kernel/Makefile|grep 'PATCHLEVEL'|awk -F '= ' '{print $2}')" >> $GITHUB_ENV
@@ -283,20 +286,20 @@ jobs:
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
         git clone --recursive ${{ env.SUSFS_SOURCE }} -b ${{ env.SUSFS_SOURCE_BRANCH }} susfs4ksu --depth=1
         
-        # cp susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch KernelSU-Next/
+        cp susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch KernelSU-Next/
         # wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu_s2.patch -O KernelSU-Next/10_enable_susfs_for_ksu.patch
-        # cp susfs4ksu/kernel_patches/50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch ./
-        wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Susfs4ksu/kernel_patches/50_add_susfs_in_kernel-4.9_s1.patch -O 50_add_susfs_in_kernel-4.9.patch
+        cp susfs4ksu/kernel_patches/50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch ./
+        # wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Susfs4ksu/kernel_patches/50_add_susfs_in_kernel-4.9_s1.patch -O 50_add_susfs_in_kernel-4.9.patch
         
         cp susfs4ksu/kernel_patches/fs/* fs/
         cp susfs4ksu/kernel_patches/include/linux/* include/linux/
 
         # wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/KernelSU-Next/kernel/apk_sign.c -O KernelSU-Next/kernel/apk_sign.c
-        wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Crdroid_Mix2s_A14/fs/devpts/inode.c -O fs/devpts/inode.c
-        wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Crdroid_Mix2s_A14/fs/proc/cmdline.c -O fs/proc/cmdline.c
-        # cd KernelSU-Next
-        # patch -p1 < 10_enable_susfs_for_ksu.patch
-        # cd ../
+        # wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Crdroid_Mix2s_A14/fs/devpts/inode.c -O fs/devpts/inode.c
+        # wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Crdroid_Mix2s_A14/fs/proc/cmdline.c -O fs/proc/cmdline.c
+        cd KernelSU-Next
+        patch -p1 < 10_enable_susfs_for_ksu.patch
+        cd ../
         patch -p1 < 50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch
       
     - name: Setup ccache
