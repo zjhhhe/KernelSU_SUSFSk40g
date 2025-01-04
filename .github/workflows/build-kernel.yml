@@ -300,6 +300,12 @@ jobs:
         
         patch -p1 < KernelSU/10_enable_susfs_for_ksu.patch
         patch -p1 < 50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch
+
+    - name : Setup Countine
+      if: always()
+      run: |
+        cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
+        patch -p1 < 50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch
       
     - name: Setup ccache
       if: env.ENABLE_CCACHE == 'true'
