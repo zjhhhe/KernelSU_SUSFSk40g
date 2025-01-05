@@ -294,11 +294,13 @@ jobs:
         cp susfs4ksu/kernel_patches/fs/* fs/
         cp susfs4ksu/kernel_patches/include/linux/* include/linux/
 
-        rm -f KernelSU/kernel/apk_sign.c && rm -f KernelSU/kernel/Makefile && rm -f fs/devpts/inode.c && rm -f fs/proc/cmdline.c
+        rm -f KernelSU/kernel/apk_sign.c && rm -f KernelSU/kernel/Makefile && rm -f fs/devpts/inode.c && rm -f fs/proc/cmdline.c && rm include/linux/cred.h && kernel/cred.c
         wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/KernelSU-backslashxx/kernel/apk_sign.c -O KernelSU/kernel/apk_sign.c
         wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/KernelSU-backslashxx/kernel/Makefile -O KernelSU/kernel/Makefile
         wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/fs/devpts/inode.c -O fs/devpts/inode.c
         wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/fs/proc/cmdline.c -O fs/proc/cmdline.c
+        wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/include/linux/cred.h -O include/linux/cred.h
+        wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/kernel/cred.c -O kernel/cred.c
 
         cd KernelSU
         patch -p1 < 10_enable_susfs_for_ksu.patch
