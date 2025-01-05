@@ -115,7 +115,7 @@ jobs:
             elif [[ ${{ env.CUSTOM_CLANG_SOURCE }} == *'.tar.xz' ]]; then
                 wget -O clang.tar.xz ${{ env.CUSTOM_CLANG_SOURCE }}
                 mkdir clang-aosp
-                tar -C clang-aosp/ -xvf clang.tar.xz
+                tar -C clang-aosp/ -xvf clang.tar.xz --strip-components 1
             else
                 git clone ${{ env.CUSTOM_CLANG_SOURCE }} -b ${{ env.CUSTOM_CLANG_BRANCH }} clang-aosp --depth=1
             fi
