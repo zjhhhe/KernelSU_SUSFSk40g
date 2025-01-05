@@ -108,10 +108,14 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace
         if [[ ${{ env.CUSTOM_CLANG_SOURCE }} =~ git ]]; then
-            if [[ ${{ env.CUSTOM_CLANG_SOURCE }} == *'.tar.xz' ]]; then
+            if [[ ${{ env.CUSTOM_CLANG_SOURCE }} == *'.tar.gz' ]]; then
                 wget -O clang.tar.gz ${{ env.CUSTOM_CLANG_SOURCE }}
                 mkdir clang-aosp
                 tar -C clang-aosp/ -zxvf clang.tar.gz
+            elif [[ ${{ env.CUSTOM_CLANG_SOURCE }} == *'.tar.xz' ]]; then
+                wget -O clang.tar.xz ${{ env.CUSTOM_CLANG_SOURCE }}
+                mkdir clang-aosp
+                tar -C clang-aosp/ -xvf clang.tar.xz
             else
                 git clone ${{ env.CUSTOM_CLANG_SOURCE }} -b ${{ env.CUSTOM_CLANG_BRANCH }} clang-aosp --depth=1
             fi
