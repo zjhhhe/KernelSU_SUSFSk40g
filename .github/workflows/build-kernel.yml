@@ -290,17 +290,17 @@ jobs:
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
         git clone --recursive ${{ env.SUSFS_SOURCE }} -b ${{ env.SUSFS_SOURCE_BRANCH }} susfs4ksu --depth=1
         
-        # cp susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch KernelSU/
-        wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu_del_apk_makefile.patch -O KernelSU/10_enable_susfs_for_ksu.patch
-        # cp susfs4ksu/kernel_patches/50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch ./
-        wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/susfs4ksu/kernel_patches/50_add_susfs_in_kernel-4.9_del_cmdline_inode.patch -O 50_add_susfs_in_kernel-4.9.patch
+        cp susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch KernelSU/
+        # wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu_del_apk_makefile.patch -O KernelSU/10_enable_susfs_for_ksu.patch
+        cp susfs4ksu/kernel_patches/50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch ./
+        # wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/susfs4ksu/kernel_patches/50_add_susfs_in_kernel-4.9_del_cmdline_inode.patch -O 50_add_susfs_in_kernel-4.9.patch
         
         cp susfs4ksu/kernel_patches/fs/* fs/
         cp susfs4ksu/kernel_patches/include/linux/* include/linux/
 
         rm -f KernelSU/kernel/apk_sign.c && rm -f KernelSU/kernel/Makefile && rm -f fs/devpts/inode.c && rm -f fs/proc/cmdline.c && rm include/linux/cred.h && rm kernel/cred.c
-        wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/KernelSU-backslashxx/kernel/apk_sign.c -O KernelSU/kernel/apk_sign.c
-        wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/KernelSU-backslashxx/kernel/Makefile -O KernelSU/kernel/Makefile
+        # wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/KernelSU-backslashxx/kernel/apk_sign.c -O KernelSU/kernel/apk_sign.c
+        # wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/KernelSU-backslashxx/kernel/Makefile -O KernelSU/kernel/Makefile
         wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/fs/devpts/inode.c -O fs/devpts/inode.c
         wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/fs/proc/cmdline.c -O fs/proc/cmdline.c
 
