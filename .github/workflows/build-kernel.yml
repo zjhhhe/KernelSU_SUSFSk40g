@@ -214,8 +214,7 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
         curl -LSs "https://raw.githubusercontent.com/rifsxd/KernelSU-Next/refs/tags/v1.0.2-R14/kernel/setup.sh" | bash -s ${{ env.KERNELSU_TAG }}
-        mv KernelSU-Next KernelSU
-        KSU_VERSION=$(cd KernelSU && expr $(/usr/bin/git rev-list --count HEAD) + 10200)
+        KSU_VERSION=$(cd KernelSU-Next && expr $(/usr/bin/git rev-list --count HEAD) + 10200)
         echo "UPLOADNAME=-KernelSU_$KSU_VERSION" >> $GITHUB_ENV
         cat drivers/kernelsu/Kconfig
 
@@ -290,7 +289,7 @@ jobs:
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
         git clone --recursive ${{ env.SUSFS_SOURCE }} -b ${{ env.SUSFS_SOURCE_BRANCH }} susfs4ksu --depth=1
         
-        cp susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch KernelSU/
+        cp susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch KernelSU-Next/
         # wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu_del_apk_makefile.patch -O KernelSU/10_enable_susfs_for_ksu.patch
         # cp susfs4ksu/kernel_patches/50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch ./
         wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/susfs4ksu/kernel_patches/50_add_susfs_in_kernel-4.9_del_cmdline_inode.patch -O 50_add_susfs_in_kernel-4.9.patch
@@ -307,7 +306,7 @@ jobs:
         wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/kernel/cred.c -O kernel/cred.c
         wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/fs/namespace.c -O fs/namespace.c
 
-        cd KernelSU
+        cd KernelSU-Next
         patch -p1 < 10_enable_susfs_for_ksu.patch
         cd ../
         patch -p1 < 50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch
