@@ -193,7 +193,7 @@ jobs:
         cd $GITHUB_WORKSPACE/kernel_workspace
         git clone --recursive ${{ env.KERNEL_SOURCE }} -b ${{ env.KERNEL_SOURCE_BRANCH }} android-kernel --depth=1
         sudo rm -rf drivers/kernelsu
-        wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/arch/arm64/configs/polaris_defconfig -O android-kernel/arch/arm64/configs/polaris_defconfig
+        wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/LineageOS_Mix2s_A15/arch/arm64/configs/polaris_defconfig -O android-kernel/arch/arm64/configs/polaris_defconfig
         if [[ ${{ env.ADD_LOCALVERSION_TO_FILENAME }} == 'true' ]]; then
           echo "LOCALVERSION=$(cat android-kernel/localversion)" >> $GITHUB_ENV
         else
