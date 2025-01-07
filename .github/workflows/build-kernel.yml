@@ -216,6 +216,9 @@ jobs:
         curl -LSs "https://raw.githubusercontent.com/officialputuid/KernelSU/refs/heads/main/kernel/setup.sh" | bash -s ${{ env.KERNELSU_TAG }}
         KSU_VERSION=$(cd KernelSU && expr $(/usr/bin/git rev-list --count HEAD) + 10200)
         echo "UPLOADNAME=-KernelSU_$KSU_VERSION" >> $GITHUB_ENV
+        wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/kernel/cred.c -O kernel/cred.c
+        wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/include/linux/cred.h -O include/linux/cred.h
+        wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/fs/namespace.c -O fs/namespace.c
 
     - name: Setup KernelSU (Manual)
       if: env.ENABLE_KERNELSU_MANUAL == 'true'
@@ -300,12 +303,9 @@ jobs:
         # wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/KernelSU-rsuntk/kernel/apk_sign.c -O KernelSU/kernel/apk_sign.c
         # wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/KernelSU-rsuntk/kernel/Makefile -O KernelSU/kernel/Makefile
         # wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/KernelSU-rsuntk/kernel/Kconfig -O KernelSU/kernel/Kconfig
-        wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/fs/namespace.c -O fs/namespace.c
         wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/fs/devpts/inode.c -O fs/devpts/inode.c
         wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/fs/proc/cmdline.c -O fs/proc/cmdline.c
         wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/fs/proc/task_mmu.c -O fs/proc/task_mmu.c
-        wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/kernel/cred.c -O kernel/cred.c
-        wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/include/linux/cred.h -O include/linux/cred.h
 
         # cd KernelSU
         # patch -p1 < 10_enable_susfs_for_ksu.patch
