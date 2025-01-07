@@ -307,10 +307,10 @@ jobs:
         wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/kernel/cred.c -O kernel/cred.c
         wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/include/linux/cred.h -O include/linux/cred.h
 
-        cd KernelSU
-        patch -p1 < 10_enable_susfs_for_ksu.patch
+        # cd KernelSU
+        # patch -p1 < 10_enable_susfs_for_ksu.patch
         # cd ../
-        # patch -p1 < 50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch
+        patch -p1 < 50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch
 
     - name: Setup ccache
       if: env.ENABLE_CCACHE == 'true'
