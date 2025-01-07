@@ -264,6 +264,7 @@ jobs:
       if : env.ENABLE_SUSFS == 'true'
       run: |  
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
+        echo "CONFIG_KSU_CMDLINE=1" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
         echo "CONFIG_KSU_SUSFS=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
         echo "CONFIG_KSU_SUSFS_SUS_SU=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
         echo "CONFIG_KSU_SUSFS_SUS_MOUNT=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
