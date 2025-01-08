@@ -194,6 +194,7 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace
         git clone --recursive ${{ env.KERNEL_SOURCE }} -b ${{ env.KERNEL_SOURCE_BRANCH }} android-kernel --depth=1
+        wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/LawRun_Mix2s/fs/stat.c -O fs/stat.c
         if [[ ${{ env.KERNEL_CONFIG_CUSTOM }} == true ]]; then
           wget ${{ env.KERNEL_CONFIG_CUSTOM_SOURCE }} -O android-kernel/arch/arm64/configs/${{ env.KERNEL_CONFIG }}
         fi
