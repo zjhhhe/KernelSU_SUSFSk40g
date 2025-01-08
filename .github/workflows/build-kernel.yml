@@ -19,6 +19,8 @@ jobs:
             KERNEL_SOURCE
             KERNEL_SOURCE_BRANCH
             KERNEL_CONFIG
+            KERNEL_CONFIG_CUSTOM
+            KERNEL_CONFIG_CUSTOM_SOURCE
             KERNEL_IMAGE_NAME
             ARCH
             ADD_LOCALVERSION_TO_FILENAME
@@ -192,8 +194,9 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace
         git clone --recursive ${{ env.KERNEL_SOURCE }} -b ${{ env.KERNEL_SOURCE_BRANCH }} android-kernel --depth=1
-        sudo rm -rf drivers/kernelsu
-        wget https://raw.githubusercontent.com/negrroo/LawRun_xiaomi_sdm845_CAF/refs/heads/master/arch/arm64/configs/LawRun_defconfig -O android-kernel/arch/arm64/configs/LawRun_defconfig
+        if [[ ${{ env.KERNEL_CONFIG_CUSTOM }} == true ]]; then
+          wget ${{ env.KERNEL_CONFIG_CUSTOM_SOURCE }} -O android-kernel/arch/arm64/configs/${{ env.KERNEL_CONFIG }}
+        fi
         if [[ ${{ env.ADD_LOCALVERSION_TO_FILENAME }} == 'true' ]]; then
           echo "LOCALVERSION=$(cat android-kernel/localversion)" >> $GITHUB_ENV
         else
