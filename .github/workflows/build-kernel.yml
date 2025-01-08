@@ -195,9 +195,6 @@ jobs:
           cd $GITHUB_WORKSPACE/kernel_workspace
           git clone --recursive ${{ env.KERNEL_SOURCE }} -b ${{ env.KERNEL_SOURCE_BRANCH }} android-kernel --depth=1
           if [[ ${{ env.KERNEL_CONFIG_CUSTOM }} == true ]]; then
-            ls
-            echo "Next---"
-            ls -al android-kernel
             wget ${{ env.KERNEL_CONFIG_CUSTOM_SOURCE }} -O android-kernel/arch/arm64/configs/${{ env.KERNEL_CONFIG }}
           fi
           if [[ ${{ env.ADD_LOCALVERSION_TO_FILENAME }} == 'true' ]]; then
