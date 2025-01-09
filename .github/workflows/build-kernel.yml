@@ -195,8 +195,8 @@ jobs:
           cd $GITHUB_WORKSPACE/kernel_workspace
           git clone --recursive ${{ env.KERNEL_SOURCE }} -b ${{ env.KERNEL_SOURCE_BRANCH }} android-kernel --depth=1
           # wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/LineageOS_Mix2s_A14/kernel/cred.c -O android-kernelkernel/cred.c
-          wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/LineageOS_Mix2s_A14/include/linux/cred.h -O android-kernel/include/linux/cred.h
-          wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/LineageOS_Mix2s_A14/fs/namespace.c -O android-kernel/fs/namespace.c
+          # wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/LineageOS_Mix2s_A14/include/linux/cred.h -O android-kernel/include/linux/cred.h
+          # wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/LineageOS_Mix2s_A14/fs/namespace.c -O android-kernel/fs/namespace.c
           if [[ ${{ env.KERNEL_CONFIG_CUSTOM }} == true ]]; then
             wget ${{ env.KERNEL_CONFIG_CUSTOM_SOURCE }} -O android-kernel/arch/arm64/configs/${{ env.KERNEL_CONFIG }}
           fi
