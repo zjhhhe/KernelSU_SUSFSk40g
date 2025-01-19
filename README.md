@@ -159,7 +159,7 @@ Fork 本仓库到你的储存库然后按照以下内容编辑 config.env，之�
 #### KernelSU Branch or Tag
 
 ~~[KernelSU 1.0 已经不再支持非 GKI 内核](https://github.com/tiann/KernelSU/issues/1705)，最后的支持版本为 [v0.9.5](https://github.com/tiann/KernelSU/tree/v0.9.5)，请注意使用正确的分支~~<br>
-Non-GKI内核可选择[KernelSU-Next](https://github.com/rifsxd/KernelSU-Next)或[KerneSU（Magic）](https://github.com/backslashxx/KernelSU)或[Kernel（rsuntk）](https://github.com/rsuntk/KernelSU)等等
+Non-GKI内核可选择[KernelSU-Next](https://github.com/rifsxd/KernelSU-Next)或[KerneSU（Magic）](https://github.com/backslashxx/KernelSU)或[KernelSU（rsuntk）](https://github.com/rsuntk/KernelSU)等等
 
 选择 KernelSU 的分支或 tag:
 
