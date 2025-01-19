@@ -169,6 +169,12 @@ Non-GKI内核可选择[KernelSU-Next](https://github.com/rifsxd/KernelSU-Next)�
 - 指定 TAG（请按照指定KernelSU Github Releases TAG填写）：`KERNELSU_TAG=v1.0.3`
 - 指定 分支（请按照指定KernelSU Github Releases Branch填写）：`KERNELSU_TAG=next`
 
+### Kernel type
+
+填写指定的KernelSU名称，请正确填写，否则会导致KernelSU嵌入错误
+
+例如：KernelSU-Next
+
 #### KernelSU Manager signature size and hash
 
 自定义KernelSU管理器签名的size值和hash值，如果不需要自定义管理器则请留空或填入官方默认值：
