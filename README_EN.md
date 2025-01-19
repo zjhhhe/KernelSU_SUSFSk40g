@@ -165,7 +165,7 @@ For example: KernelSU-Next
 #### KernelSU Branch or Tag
 
 ~~[KernelSU 1.0 no longer supports non-GKI kernels](https://github.com/tiann/KernelSU/issues/1705). The last supported version is [v0.9.5](https://github.com/tiann/KernelSU/tree/v0.9.5), please make sure to use the correct branch.~~<br>
-Non-GKI kernel can choose [KernelSU-Next](https://github.com/rifsxd/KernelSU-Next), [KernelSU (Magic)](https://github.com/backslashxx/KernelSU), [Kernel (rsuntk)](https://github.com/rsuntk/KernelSU), etc.
+Non-GKI kernel can choose [KernelSU-Next](https://github.com/rifsxd/KernelSU-Next), [KernelSU (Magic)](https://github.com/backslashxx/KernelSU), [KernelSU (rsuntk)](https://github.com/rsuntk/KernelSU), etc.
 
 Select the branch or tag of KernelSU:
 
