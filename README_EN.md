@@ -156,6 +156,12 @@ Modify to the specified KernelSU source location.
 
 For example:
 
+#### Kernel type
+
+Fill in the specified KernelSU name. Please fill it in correctly, otherwise, it may cause KernelSU embedding errors.
+
+For example: KernelSU-Next
+
 #### KernelSU Branch or Tag
 
 ~~[KernelSU 1.0 no longer supports non-GKI kernels](https://github.com/tiann/KernelSU/issues/1705). The last supported version is [v0.9.5](https://github.com/tiann/KernelSU/tree/v0.9.5), please make sure to use the correct branch.~~<br>
