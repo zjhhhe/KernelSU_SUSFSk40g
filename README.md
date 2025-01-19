@@ -3,6 +3,7 @@
 # KernelSU Action
 
 用于 Non-GKI Kernel 的 Action，具有一定的普遍性，需要了解内核及 Android 的相关知识得以运用。
+基于xiaoleGun原始项目修改，感谢xiaoleGun的努力。
 
 ## 警告 :warning: :warning: :warning:
 
@@ -40,6 +41,18 @@ Fork 本仓库到你的储存库然后按照以下内容编辑 config.env，之�
 修改为你的内核配置文件名
 
 例如: vendor/wayne_defconfig
+
+### Kernel Config custom
+
+是否启动自定义内核配置文件地址
+
+例如: true/false
+
+### Kernel Config custom
+
+指定自定义内核配置文件地址
+
+例如: [true/false](https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/LineageOS_Exp_Mix2s_A14/arch/arm64/configs/polaris_defconfig)
 
 ### Arch
 
@@ -113,19 +126,48 @@ Fork 本仓库到你的储存库然后按照以下内容编辑 config.env，之�
 
 例如: LLVM=1 LLVM_IAS=1
 
+## SUSFS For KernelSU
+
+### Enable SUSFS
+
+启用 SUSFS，用于获得更强的Root隐藏能力，若存在修补错误的问题请自行修补后添加进workflow中
+
+### SUSFS source
+
+修改为指定的SUSFS源码位置
+
+例如:
+
+### SUSFS source branch
+
+选择 SUSFS 的分支:
+
+- 指定 分支：SUSFS_SOURCE_BRANCH=kernel-4.9
+
+## KernelSU
+
 ### Enable KernelSU
 
 启用 KernelSU，用于排查内核故障或单独编译内核
 
+### KernelSU source
+
+修改为指定的KernelSU源码位置
+
+例如:
+
 #### KernelSU Branch or Tag
 
-[KernelSU 1.0 已经不再支持非 GKI 内核](https://github.com/tiann/KernelSU/issues/1705)，最后的支持版本为 [v0.9.5](https://github.com/tiann/KernelSU/tree/v0.9.5)，请注意使用正确的分支
+~~[KernelSU 1.0 已经不再支持非 GKI 内核](https://github.com/tiann/KernelSU/issues/1705)，最后的支持版本为 [v0.9.5](https://github.com/tiann/KernelSU/tree/v0.9.5)，请注意使用正确的分支~~
+Non-GKI内核可选择[KernelSU-Next](https://github.com/rifsxd/KernelSU-Next)或[KerneSU（Magic）](https://github.com/backslashxx/KernelSU)或[Kernel（rsuntk）](https://github.com/rsuntk/KernelSU)等等
 
 选择 KernelSU 的分支或 tag:
 
 - ~~main 分支(开发版): `KERNELSU_TAG=main`~~
-- 最新 TAG(稳定版): `KERNELSU_TAG=v0.9.5`
-- 指定 TAG(如`v0.5.2`): `KERNELSU_TAG=v0.5.2`
+- ~~最新 TAG(稳定版): `KERNELSU_TAG=v0.9.5`~~
+- ~~指定 TAG(如`v0.5.2`): `KERNELSU_TAG=v0.5.2`~~
+- 指定 TAG（请按照指定KernelSU Github Releases TAG填写）：`KERNELSU_TAG=v1.0.3`
+- 指定 分支（请按照指定KernelSU Github Releases Branch填写）：`KERNELSU_TAG=next`
 
 #### KernelSU Manager signature size and hash
 
@@ -135,7 +177,7 @@ Fork 本仓库到你的储存库然后按照以下内容编辑 config.env，之�
 
 `KSU_EXPECTED_HASH=c371061b19d8c7d7d6133c6a9bafe198fa944e50c1b31c9d8daa8d7f1fc2d2d6`
 
-可键入`ksud debug get-sign <apk_path>`获取apk签名的size值和hash值
+可键入`ksud debug get-sign <apk_path>`获取apk签名的size值和hash值，ksud请从官方版本[KernelSU Action](https://github.com/tiann/KernelSU/actions/workflows/build-manager.yml)中获取
 
 ### Disable LTO
 
@@ -210,3 +252,4 @@ LTO 用于优化内核，但有些时候会导致错误
 - [AOSP](https://android.googlesource.com)
 - [KernelSU](https://github.com/tiann/KernelSU)
 - [xiaoxindada](https://github.com/xiaoxindada)
+- [susfs4ksu](https://gitlab.com/simonpunk/susfs4ksu)
