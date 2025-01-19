@@ -48,11 +48,11 @@ Fork 本仓库到你的储存库然后按照以下内容编辑 config.env，之�
 
 例如: true/false
 
-### Kernel Config custom
+### Kernel Config custom source
 
 指定自定义内核配置文件地址
 
-例如: [true/false](https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/LineageOS_Exp_Mix2s_A14/arch/arm64/configs/polaris_defconfig)
+例如: https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/LineageOS_Exp_Mix2s_A14/arch/arm64/configs/polaris_defconfig
 
 ### Arch
 
