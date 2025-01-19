@@ -46,6 +46,7 @@ jobs:
               SUSFS_SOURCE_BRANCH
               ENABLE_KERNELSU
               ENABLE_KERNELSU_NONGKI_PATCH
+              KERNELSU_TYPE
               KERNELSU_SETUP_SOURCE
               KERNELSU_TAG
               ADD_KPROBES_CONFIG
@@ -194,9 +195,6 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE/kernel_workspace
           git clone --recursive ${{ env.KERNEL_SOURCE }} -b ${{ env.KERNEL_SOURCE_BRANCH }} android-kernel --depth=1
-          # wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/LineageOS_Mix2s_A14/kernel/cred.c -O android-kernelkernel/cred.c
-          # wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/LineageOS_Mix2s_A14/include/linux/cred.h -O android-kernel/include/linux/cred.h
-          # wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/LineageOS_Mix2s_A14/fs/namespace.c -O android-kernel/fs/namespace.c
           if [[ ${{ env.KERNEL_CONFIG_CUSTOM }} == true ]]; then
             wget ${{ env.KERNEL_CONFIG_CUSTOM_SOURCE }} -O android-kernel/arch/arm64/configs/${{ env.KERNEL_CONFIG }}
           fi
@@ -221,8 +219,8 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
           curl -LSs "${{ env.KERNELSU_SETUP_SOURCE }}" | bash -s ${{ env.KERNELSU_TAG }}
-          KSU_VERSION=$(cd KernelSU-Next && expr $(/usr/bin/git rev-list --count HEAD) + 10200)
-          echo "UPLOADNAME=-KernelSU_$KSU_VERSION" >> $GITHUB_ENV
+          KSU_VERSION=$(cd ${{ env.KERNELSU_TYPE }} && expr $(/usr/bin/git rev-list --count HEAD) + 10200)
+          echo "UPLOADNAME=-${{ env.KERNELSU_TYPE }}_$KSU_VERSION" >> $GITHUB_ENV
 
       - name: Setup KernelSU Non-GKI Patch
         if: env.ENABLE_KERNELSU_NONGKI_PATCH == 'true'
@@ -292,22 +290,13 @@ jobs:
           cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
           git clone --recursive ${{ env.SUSFS_SOURCE }} -b ${{ env.SUSFS_SOURCE_BRANCH }} susfs4ksu --depth=1
 
-          # cp susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch KernelSU-Next/
-          wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/KernelSU-Next/susfs4ksu/10_enable_susfs_for_ksu.patch -O KernelSU-Next/10_enable_susfs_for_ksu.patch
+          cp susfs4ksu/kernel_patches/${{ env.KERNELSU_TYPE }}/10_enable_susfs_for_ksu.patch KernelSU-Next/
           cp susfs4ksu/kernel_patches/50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch ./
-          # wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/KernelSU-rsuntk/susfs4ksu/kernel_patches/50_add_susfs_in_kernel-4.9.patch -O 50_add_susfs_in_kernel-4.9.patch
 
           cp susfs4ksu/kernel_patches/fs/* fs/
           cp susfs4ksu/kernel_patches/include/linux/* include/linux/
 
-          wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/KernelSU-Next/kernel/apk_sign.c -O KernelSU-Next/kernel/apk_sign.c
-          wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/KernelSU-Next/kernel/Makefile -O KernelSU-Next/kernel/Makefile
-          wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/KernelSU-Next/kernel/core_hook.c -O KernelSU-Next/kernel/core_hook.c
-          #wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/fs/devpts/inode.c -O fs/devpts/inode.c
-          #wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/fs/proc/cmdline.c -O fs/proc/cmdline.c
-          #wget https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/Evox_Mix2s_A15/fs/proc/task_mmu.c -O fs/proc/task_mmu.c
-
-          cd KernelSU-Next
+          cd ${{ env.KERNELSU_TYPE }}
           patch -p1 < 10_enable_susfs_for_ksu.patch
           cd ../
           patch -p1 < 50_add_susfs_in_kernel-$SUSFS_KERNEL_VERSION.patch
