@@ -39,6 +39,18 @@ Change this to your kernel configuration file name.
 
 For example: `vendor/wayne_defconfig`
 
+### Kernel Config custom
+
+Whether to enable the custom kernel configuration file path.
+
+For example: true/false
+
+### Kernel Config custom source
+
+Specify the custom kernel configuration file path.
+
+For example: https://raw.githubusercontent.com/JackA1ltman/Kernel_Extra/refs/heads/main/LineageOS_Exp_Mix2s_A14/arch/arm64/configs/polaris_defconfig
+
 ### Arch
 
 For example: arm64
@@ -113,19 +125,48 @@ For example: `LLVM=1 LLVM_IAS=1`
 
 LTO is used to optimize the kernel but sometimes causes errors.
 
-### Enable KernelSU
+### SUSFS For KernelSU
+
+#### Enable SUSFS
+
+Enable SUSFS for stronger Root hiding capabilities. If there are patch errors, please fix them yourself and add them to the workflow.
+
+#### SUSFS source
+
+Modify to the specified SUSFS source location.
+
+For example:
+
+#### SUSFS source branch
+
+Select the SUSFS branch:
+
+- Specify branch: SUSFS_SOURCE_BRANCH=kernel-4.9"
+
+### KernelSU
+
+#### Enable KernelSU
 
 Enable KernelSU for troubleshooting kernel failures or compiling the kernel separately.
 
+#### KernelSU source
+
+Modify to the specified KernelSU source location.
+
+For example:
+
 #### KernelSU Branch or Tag
 
-[KernelSU 1.0 no longer supports non-GKI kernels](https://github.com/tiann/KernelSU/issues/1705). The last supported version is [v0.9.5](https://github.com/tiann/KernelSU/tree/v0.9.5), please make sure to use the correct branch.
+~~[KernelSU 1.0 no longer supports non-GKI kernels](https://github.com/tiann/KernelSU/issues/1705). The last supported version is [v0.9.5](https://github.com/tiann/KernelSU/tree/v0.9.5), please make sure to use the correct branch.~~<br>
+Non-GKI kernel can choose [KernelSU-Next](https://github.com/rifsxd/KernelSU-Next), [KernelSU (Magic)](https://github.com/backslashxx/KernelSU), [Kernel (rsuntk)](https://github.com/rsuntk/KernelSU), etc.
 
 Select the branch or tag of KernelSU:
 
 - ~~main branch (development version): `KERNELSU_TAG=main`~~
-- Latest TAG (stable version): `KERNELSU_TAG=v0.9.5`
-- Specify the TAG (such as `v0.5.2`): `KERNELSU_TAG=v0.5.2`
+- ~~Latest TAG (stable version): `KERNELSU_TAG=v0.9.5`~~
+- ~~Specify the TAG (such as `v0.5.2`): `KERNELSU_TAG=v0.5.2`~~
+- Specify TAG (Please fill in according to the specified KernelSU Github Releases TAG): `KERNELSU_TAG=v1.0.3`
+- Specify branch (Please fill in according to the specified KernelSU Github Releases Branch): `KERNELSU_TAG=next`
 
 #### KernelSU Manager signature size and hash
 
