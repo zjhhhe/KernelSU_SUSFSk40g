@@ -126,37 +126,37 @@ Fork 本仓库到你的储存库然后按照以下内容编辑 config.env，之�
 
 例如: LLVM=1 LLVM_IAS=1
 
-## SUSFS For KernelSU
+### SUSFS For KernelSU
 
-### Enable SUSFS
+#### Enable SUSFS
 
 启用 SUSFS，用于获得更强的Root隐藏能力，若存在修补错误的问题请自行修补后添加进workflow中
 
-### SUSFS source
+#### SUSFS source
 
 修改为指定的SUSFS源码位置
 
 例如:
 
-### SUSFS source branch
+#### SUSFS source branch
 
 选择 SUSFS 的分支:
 
 - 指定 分支：SUSFS_SOURCE_BRANCH=kernel-4.9
 
-## KernelSU
+### KernelSU
 
-### Enable KernelSU
+#### Enable KernelSU
 
 启用 KernelSU，用于排查内核故障或单独编译内核
 
-### KernelSU source
+#### KernelSU source
 
 修改为指定的KernelSU源码位置
 
 例如:
 
-### KernelSU Branch or Tag
+#### KernelSU Branch or Tag
 
 ~~[KernelSU 1.0 已经不再支持非 GKI 内核](https://github.com/tiann/KernelSU/issues/1705)，最后的支持版本为 [v0.9.5](https://github.com/tiann/KernelSU/tree/v0.9.5)，请注意使用正确的分支~~<br>
 Non-GKI内核可选择[KernelSU-Next](https://github.com/rifsxd/KernelSU-Next)或[KerneSU（Magic）](https://github.com/backslashxx/KernelSU)或[Kernel（rsuntk）](https://github.com/rsuntk/KernelSU)等等
@@ -169,7 +169,7 @@ Non-GKI内核可选择[KernelSU-Next](https://github.com/rifsxd/KernelSU-Next)�
 - 指定 TAG（请按照指定KernelSU Github Releases TAG填写）：`KERNELSU_TAG=v1.0.3`
 - 指定 分支（请按照指定KernelSU Github Releases Branch填写）：`KERNELSU_TAG=next`
 
-### Kernel type
+#### Kernel type
 
 填写指定的KernelSU名称，请正确填写，否则会导致KernelSU嵌入错误
 
