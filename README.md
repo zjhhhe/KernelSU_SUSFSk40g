@@ -144,6 +144,10 @@ Fork 本仓库到你的储存库然后按照以下内容编辑 config.env，之�
 
 - 指定 分支：SUSFS_SOURCE_BRANCH=kernel-4.9
 
+#### SUSFS KernelSU mode
+
+设置KernelSU模块系统，0为Overlayfs，1为Magic Mount，KernelSU-Next用户请填写1，官方请填写0
+
 ### KernelSU
 
 #### Enable KernelSU
