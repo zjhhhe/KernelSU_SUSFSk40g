@@ -144,6 +144,10 @@ Select the SUSFS branch:
 
 - Specify branch: SUSFS_SOURCE_BRANCH=kernel-4.9"
 
+#### SUSFS KernelSU mode
+
+Setting the KernelSU modules system, 0 for "OverlayFS" Mode ,1 for "Magic Mount" Mode
+
 ### KernelSU
 
 #### Enable KernelSU
