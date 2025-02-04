@@ -204,6 +204,8 @@ jobs:
           else
             echo "LOCALVERSION=" >> $GITHUB_ENV
           fi
+          wget https://raw.githubusercontent.com/JackA1ltman/Oneplus8_KernelSU/refs/heads/main/patches/kernel_makefile.patch
+          patch -p1 < kernel_makefile.patch
 
       - name: Download source boot image
         if: env.BUILD_BOOT_IMG == 'true'
